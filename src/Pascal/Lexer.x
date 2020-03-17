@@ -38,9 +38,13 @@ $alpha = [a-zA-Z]               -- alphabetic characters
 tokens :-
   $white+                               ; -- remove multiple white-spaces
   "//".*                                ; -- skip one line comments
-  $digit+                               { tok_read     TokenInt }
+  "{".*"}"                              ; -- skips bracket comments
+  "(*".*"*)"                            ; -- skips parenthesis comments
+  $digit+                               { tok_read     TokenFloat }
+  true|false                            { tok_read     TokenBool }
   [\+]|[\-]|[\*]|[\/]|[=]               { tok_read     TokenOp }
-  [\(]|[\)]|begin|end|true|false        { tok_read     TokenK }
+  [\(]|[\)]|[\.]|[\;]                   { tok_string   TokenK }
+  program|begin|end                     { tok_string   TokenK }
   [:=]                                  { tok_read     TokenOp }
   $alpha [$alpha $digit \_ \']*         { tok_string   TokenID }
 
@@ -62,10 +66,11 @@ tokenToPosN (Token p _) = p
 
 -- TODO: Add your own token types here
 data TokenClass
- = TokenOp     String
- | TokenK      String
- | TokenInt    Int
- | TokenID    String
+ = TokenOp      String
+ | TokenK       String
+ | TokenFloat   Float
+ | TokenBool    Bool
+ | TokenID      String
  | TokenEOF
  deriving (Eq, Show)
 

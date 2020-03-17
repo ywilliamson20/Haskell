@@ -14,18 +14,21 @@ import Pascal.Lexer
 %lexer { lexer } { Token _ TokenEOF }
 
 %token
-        int             { Token _ (TokenInt $$) }
-        ID              { Token _ (TokenID $$)  }
-        '+'             { Token _ (TokenOp "+")   }
-        '-'             { Token _ (TokenOp "-")   }
-        '*'             { Token _ (TokenOp "*")   }
-        '/'             { Token _ (TokenOp "/")   }
-        '='             { Token _ (TokenOp "=")   }
-        '('             { Token _ (TokenK  "(")   }
-        ')'             { Token _ (TokenK  ")")   }
+        float           { Token _ (TokenFloat $$) }
+        ID              { Token _ (TokenID $$) }
+        '+'             { Token _ (TokenOp "+") }
+        '-'             { Token _ (TokenOp "-") }
+        '*'             { Token _ (TokenOp "*") }
+        '/'             { Token _ (TokenOp "/") }
+        '='             { Token _ (TokenOp "=") }
+        '('             { Token _ (TokenK  "(") }
+        ')'             { Token _ (TokenK  ")") }
+        '.'             { Token _ (TokenK ".") }
+        ';'             { Token _ (TokenK ";") }
+        'program'       { Token _ (TokenK "program") }
         'begin'         { Token _ (TokenK "begin") }
-        'end'           { Token _ (TokenK "end")  }
-        ':='            { Token _ (TokenK ":=")   }
+        'end'           { Token _ (TokenK "end") }
+        ':='            { Token _ (TokenK ":=") }
         'true'          { Token _ (TokenK "true") }
         'false'         { Token _ (TokenK "false") }
         'and'           { Token _ (TokenK "and") }
@@ -40,7 +43,7 @@ import Pascal.Lexer
 
 -- Entry point
 Program :: {Program}
-    : 'begin' Statements 'end' { $2 }
+    : 'program' ID ';' 'begin' Statements 'end' '.' { $5 }
 
 -- Expressions
 Exp :: {Exp}

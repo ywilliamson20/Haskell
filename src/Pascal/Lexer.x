@@ -1,6 +1,6 @@
 {
 
-{-# LANGUAGE OverloadedStrings                 #-}
+{-# LANGUAGE OverloadedStrings                  #-}
 {-# LANGUAGE NoMonomorphismRestriction          #-}
 {-# LANGUAGE CPP                                #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds          #-}
@@ -42,10 +42,16 @@ tokens :-
   "(*".*"*)"                            ; -- skips parenthesis comments
   $digit+                               { tok_read     TokenFloat }
   true|false                            { tok_read     TokenBool }
-  [\+]|[\-]|[\*]|[\/]|[=]               { tok_read     TokenOp }
-  [\(]|[\)]|[\.]|[\;]                   { tok_string   TokenK }
+  [\+]|[\-]|[\*]|[\/]                   { tok_read     TokenOp }
+  [\>]|[\>\=]|[\<]|[\<\=]|[\=]|[\<\>]   { tok_read     TokenOp }
+  [\(]|[\)]|[\.]|[\,]|[\:]|[\;]|[:=]    { tok_string   TokenK }
   program|begin|end                     { tok_string   TokenK }
-  [:=]                                  { tok_read     TokenOp }
+  procedure|function                    { tok_string   TokenK }
+  var|boolean|real                      { tok_string   TokenK }
+  sin|cos|exp|sqrt|ln                   { tok_string   TokenK }
+  writeln|readln                        { tok_string   TokenK }
+  if|then|else                          { tok_string   TokenK }
+  while|for                             { tok_string   TokenK }
   $alpha [$alpha $digit \_ \']*         { tok_string   TokenID }
 
 {

@@ -15,4 +15,4 @@ import Pascal.Data
 
 interpret :: Program -> String
 -- TODO: write the interpreter
-interpret _ = "Not implemented"
+interpret  _ = "Not implemented"
